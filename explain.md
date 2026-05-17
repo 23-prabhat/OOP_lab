@@ -122,3 +122,107 @@ If both are true, then all three last digits are the same.
 - Input: `27 57 97`
 - Last digits: `7, 7, 7`
 - Output: `All three numbers have the same rightmost digit.`
+
+## Practical 4: Complex Number Operations
+
+This program performs addition, subtraction, and multiplication of two complex numbers.
+
+### What is a complex number
+
+A complex number is written in the form:
+
+`a + bi`
+
+where:
+- `a` is the real part
+- `b` is the imaginary part
+
+Example: `2 + 3i`
+
+### How the program is organized
+
+The program uses two classes:
+- `ComplexNumber`
+- `Practical4`
+
+`ComplexNumber` stores the real and imaginary parts and provides methods for operations.
+`Practical4` contains the `main()` method and handles user input and output.
+
+### Constructor
+
+```java
+public ComplexNumber(double real, double imaginary) {
+    this.real = real;
+    this.imaginary = imaginary;
+}
+```
+
+This constructor is used to create a complex number object with a real part and an imaginary part.
+
+### Addition
+
+```java
+public ComplexNumber add(ComplexNumber other) {
+    return new ComplexNumber(real + other.real, imaginary + other.imaginary);
+}
+```
+
+Formula:
+- `(a + bi) + (c + di) = (a + c) + (b + d)i`
+
+### Subtraction
+
+```java
+public ComplexNumber subtract(ComplexNumber other) {
+    return new ComplexNumber(real - other.real, imaginary - other.imaginary);
+}
+```
+
+Formula:
+- `(a + bi) - (c + di) = (a - c) + (b - d)i`
+
+### Multiplication
+
+```java
+public ComplexNumber multiply(ComplexNumber other) {
+    double newReal = (real * other.real) - (imaginary * other.imaginary);
+    double newImaginary = (real * other.imaginary) + (imaginary * other.real);
+    return new ComplexNumber(newReal, newImaginary);
+}
+```
+
+Formula:
+- `(a + bi)(c + di) = (ac - bd) + (ad + bc)i`
+
+### Displaying the complex number
+
+```java
+public String toString() {
+    if (imaginary >= 0) {
+        return real + " + " + imaginary + "i";
+    }
+    return real + " - " + Math.abs(imaginary) + "i";
+}
+```
+
+This method converts the object into a readable form like `2.0 + 3.0i`.
+If the imaginary part is negative, it prints properly as subtraction.
+
+### Main method flow
+
+- Read the real and imaginary parts of the first complex number.
+- Read the real and imaginary parts of the second complex number.
+- Create two `ComplexNumber` objects.
+- Call `add()`, `subtract()`, and `multiply()`.
+- Print the results.
+
+### Example
+
+For:
+- First number = `2 + 3i`
+- Second number = `4 + 5i`
+
+Results:
+- Addition = `6 + 8i`
+- Subtraction = `-2 - 2i`
+- Multiplication = `-7 + 22i`
