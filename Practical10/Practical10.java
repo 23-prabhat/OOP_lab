@@ -83,36 +83,37 @@ class DoublyLinkedList {
 
 public class Practical10 {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        DoublyLinkedList list = new DoublyLinkedList();
+        try (Scanner scanner = new Scanner(System.in)) {
+            DoublyLinkedList list = new DoublyLinkedList();
 
-        while (true) {
-            System.out.println("\nDoubly Linked List Operations");
-            System.out.println("1. Insert");
-            System.out.println("2. Delete");
-            System.out.println("3. Display");
-            System.out.println("4. Exit");
-            System.out.print("Enter your choice: ");
+            while (true) {
+                System.out.println("\nDoubly Linked List Operations");
+                System.out.println("1. Insert");
+                System.out.println("2. Delete");
+                System.out.println("3. Display");
+                System.out.println("4. Exit");
+                System.out.print("Enter your choice: ");
 
-            int choice = scanner.nextInt();
+                int choice = scanner.nextInt();
 
-            switch (choice) {
-                case 1 -> {
-                    System.out.print("Enter element to insert: ");
-                    int value = scanner.nextInt();
-                    list.insertAtEnd(value);
+                switch (choice) {
+                    case 1 -> {
+                        System.out.print("Enter element to insert: ");
+                        int value = scanner.nextInt();
+                        list.insertAtEnd(value);
+                    }
+                    case 2 -> {
+                        System.out.print("Enter element to delete: ");
+                        int value = scanner.nextInt();
+                        list.deleteByValue(value);
+                    }
+                    case 3 -> list.displayForward();
+                    case 4 -> {
+                        System.out.println("Program exited.");
+                        return;
+                    }
+                    default -> System.out.println("Invalid choice.");
                 }
-                case 2 -> {
-                    System.out.print("Enter element to delete: ");
-                    int value = scanner.nextInt();
-                    list.deleteByValue(value);
-                }
-                case 3 -> list.displayForward();
-                case 4 -> {
-                    System.out.println("Program exited.");
-                    return;
-                }
-                default -> System.out.println("Invalid choice.");
             }
         }
     }

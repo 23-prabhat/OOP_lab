@@ -40,28 +40,29 @@ class ComplexNumber {
 
 public class Practical4 {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        try (Scanner scanner = new Scanner(System.in)) {
 
-        System.out.println("Enter first complex number:");
-        System.out.print("Real part: ");
-        double real1 = scanner.nextDouble();
-        System.out.print("Imaginary part: ");
-        double imaginary1 = scanner.nextDouble();
+            System.out.println("Enter first complex number:");
+            System.out.print("Real part: ");
+            double real1 = scanner.nextDouble();
+            System.out.print("Imaginary part: ");
+            double imaginary1 = scanner.nextDouble();
 
-        System.out.println("Enter second complex number:");
-        System.out.print("Real part: ");
-        double real2 = scanner.nextDouble();
-        System.out.print("Imaginary part: ");
-        double imaginary2 = scanner.nextDouble();
+            System.out.println("Enter second complex number:");
+            System.out.print("Real part: ");
+            double real2 = scanner.nextDouble();
+            System.out.print("Imaginary part: ");
+            double imaginary2 = scanner.nextDouble();
 
-        ComplexNumber first = new ComplexNumber(real1, imaginary1);
-        ComplexNumber second = new ComplexNumber(real2, imaginary2);
+            ComplexNumber first = new ComplexNumber(real1, imaginary1);
+            ComplexNumber second = new ComplexNumber(real2, imaginary2);
 
-        System.out.println("First complex number: " + first);
-        System.out.println("Second complex number: " + second);
-        System.out.println("Addition: " + first.add(second));
-        System.out.println("Subtraction: " + first.subtract(second));
-        System.out.println("Multiplication: " + first.multiply(second));
+            System.out.println("First complex number: " + first);
+            System.out.println("Second complex number: " + second);
+            System.out.println("Addition: " + first.add(second));
+            System.out.println("Subtraction: " + first.subtract(second));
+            System.out.println("Multiplication: " + first.multiply(second));
+        }
     }
 }
 

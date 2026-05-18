@@ -52,22 +52,23 @@ class Rectangle extends Shape {
 
 public class Practical6 {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        try (Scanner scanner = new Scanner(System.in)) {
 
-        System.out.print("Enter radius of circle: ");
-        double radius = scanner.nextDouble();
-        Circle circle = new Circle(radius);
+            System.out.print("Enter radius of circle: ");
+            double radius = scanner.nextDouble();
+            Circle circle = new Circle(radius);
 
-        System.out.print("Enter length of rectangle: ");
-        double length = scanner.nextDouble();
-        System.out.print("Enter breadth of rectangle: ");
-        double breadth = scanner.nextDouble();
-        Rectangle rectangle = new Rectangle(length, breadth);
+            System.out.print("Enter length of rectangle: ");
+            double length = scanner.nextDouble();
+            System.out.print("Enter breadth of rectangle: ");
+            double breadth = scanner.nextDouble();
+            Rectangle rectangle = new Rectangle(length, breadth);
 
-        System.out.printf("Circle Area: %.2f%n", circle.area());
-        System.out.printf("Circle Perimeter: %.2f%n", circle.perimeter());
-        System.out.printf("Rectangle Area: %.2f%n", rectangle.area());
-        System.out.printf("Rectangle Perimeter: %.2f%n", rectangle.perimeter());
+            System.out.printf("Circle Area: %.2f%n", circle.area());
+            System.out.printf("Circle Perimeter: %.2f%n", circle.perimeter());
+            System.out.printf("Rectangle Area: %.2f%n", rectangle.area());
+            System.out.printf("Rectangle Perimeter: %.2f%n", rectangle.perimeter());
+        }
     }
 }
 

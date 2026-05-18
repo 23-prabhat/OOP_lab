@@ -963,3 +963,957 @@ If the generated number is:
 - `17`, output becomes `Cube of 17 = 4913`
 
 Since numbers are random, the output will be different each time the program runs.
+
+## Practical 9: Student Record Management Using File Handling
+
+This program demonstrates file handling in Java by storing and reading student records from a file.
+
+### What the program does
+
+The program:
+- creates a file automatically if it does not exist
+- shows a menu to the user
+- allows adding student records
+- allows viewing saved student records
+- stores the records in a text file
+
+### Main concepts used
+
+This practical demonstrates:
+- file creation
+- file writing
+- file reading
+- menu-driven programming
+- exception handling
+
+### File name constant
+
+```java
+private static final String FILE_NAME = "students.txt";
+```
+
+This line stores the file name in a constant variable.
+The file used by the program is `students.txt`.
+
+### Creating the file
+
+```java
+File file = new File(FILE_NAME);
+```
+
+This creates a `File` object representing `students.txt`.
+
+```java
+if (file.createNewFile()) {
+    System.out.println("Student record file created: " + file.getAbsolutePath());
+}
+```
+
+`createNewFile()` creates the file only if it does not already exist.
+
+If the file is newly created, the program prints its full path.
+
+### Exception while creating file
+
+```java
+catch (IOException exception) {
+    System.out.println("Unable to create file: " + exception.getMessage());
+    return;
+}
+```
+
+If file creation fails, the program prints an error and stops.
+
+### Menu-driven loop
+
+```java
+while (true) {
+```
+
+This loop keeps the program running until the user chooses Exit.
+
+The menu displayed is:
+- `1. Add Student Record`
+- `2. View Student Records`
+- `3. Exit`
+
+### Reading user choice
+
+```java
+int choice = scanner.nextInt();
+scanner.nextLine();
+```
+
+`nextInt()` reads the menu choice.
+
+`scanner.nextLine()` is used after `nextInt()` to clear the leftover newline character from the input buffer.
+
+### Switch statement
+
+```java
+switch (choice) {
+    case 1 -> addStudentRecord(scanner, file);
+    case 2 -> viewStudentRecords(file);
+    case 3 -> {
+        System.out.println("Program exited.");
+        return;
+    }
+    default -> System.out.println("Invalid choice. Try again.");
+}
+```
+
+This handles the menu options:
+- option 1 calls `addStudentRecord()`
+- option 2 calls `viewStudentRecords()`
+- option 3 exits the program
+- any other number shows an invalid choice message
+
+### addStudentRecord method
+
+```java
+private static void addStudentRecord(Scanner scanner, File file)
+```
+
+This method takes student details from the user and saves them into the file.
+
+It asks for:
+- roll number
+- name
+- marks
+
+### Writing to the file
+
+```java
+try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+```
+
+This opens the file in append mode because of `true`.
+So new records are added at the end without deleting old records.
+
+```java
+writer.write(rollNumber + "," + name + "," + marks);
+writer.newLine();
+```
+
+This writes one student record in comma-separated format, for example:
+
+`101,Riya,89`
+
+Each record is stored on a new line.
+
+### Why BufferedWriter is used
+
+`BufferedWriter` improves writing efficiency and provides `newLine()` for moving to the next line.
+
+### viewStudentRecords method
+
+```java
+private static void viewStudentRecords(File file)
+```
+
+This method reads records from the file and displays them.
+
+### Reading the file
+
+```java
+try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+```
+
+This opens the file for reading.
+
+```java
+while ((line = reader.readLine()) != null) {
+```
+
+This loop reads the file one line at a time until the end of the file.
+
+### Splitting each record
+
+```java
+String[] record = line.split(",");
+```
+
+This splits the line into parts using the comma as separator.
+
+For example:
+
+`101,Riya,89`
+
+becomes:
+- `record[0] = 101`
+- `record[1] = Riya`
+- `record[2] = 89`
+
+### Printing records
+
+```java
+if (record.length == 3) {
+    System.out.println("Roll Number: " + record[0]
+            + ", Name: " + record[1]
+            + ", Marks: " + record[2]);
+}
+```
+
+This checks that the record has exactly three parts and then prints them in a readable format.
+
+### No records check
+
+```java
+boolean hasRecords = false;
+```
+
+This variable is used to check whether any valid record was found.
+
+If no records are present, the program prints:
+- `No records found.`
+
+### Use of try-with-resources
+
+Both reading and writing use try-with-resources:
+
+```java
+try (BufferedWriter writer = ...)
+try (BufferedReader reader = ...)
+```
+
+This automatically closes the file after use.
+It is safer and cleaner than closing files manually.
+
+### Program flow
+
+1. Create a `File` object for `students.txt`.
+2. Create the file if it does not exist.
+3. Show the menu in a loop.
+4. If user selects `1`, read student details and save them.
+5. If user selects `2`, read all stored records and display them.
+6. If user selects `3`, exit the program.
+
+### Example
+
+If the user chooses:
+- `1`
+- roll number = `101`
+- name = `Riya`
+- marks = `89`
+
+Then the program stores:
+
+`101,Riya,89`
+
+If the user later chooses `2`, the program displays:
+
+- `Roll Number: 101, Name: Riya, Marks: 89`
+
+## Practical 10: Doubly Linked List Operations
+
+This program demonstrates insertion, deletion, and display operations on a doubly linked list in Java.
+
+### What a doubly linked list is
+
+A doubly linked list is a linear data structure in which each node contains:
+- data
+- a reference to the previous node
+- a reference to the next node
+
+This allows movement in both forward and backward directions.
+
+### Main concepts used
+
+This practical demonstrates:
+- linked list data structure
+- dynamic memory usage through objects
+- insertion
+- deletion
+- traversal
+- menu-driven programming
+
+### Node class
+
+```java
+class Node {
+    int data;
+    Node previous;
+    Node next;
+}
+```
+
+Each node stores:
+- `data` for the value
+- `previous` for the previous node
+- `next` for the next node
+
+### Node constructor
+
+```java
+Node(int data) {
+    this.data = data;
+}
+```
+
+This constructor creates a node and stores the given value in it.
+
+### DoublyLinkedList class
+
+```java
+class DoublyLinkedList {
+    private Node head;
+}
+```
+
+This class manages the linked list.
+`head` points to the first node of the list.
+
+### insertAtEnd method
+
+```java
+public void insertAtEnd(int data) {
+    Node newNode = new Node(data);
+```
+
+This method creates a new node with the given value.
+
+```java
+if (head == null) {
+    head = newNode;
+    return;
+}
+```
+
+If the list is empty, the new node becomes the head node.
+
+```java
+Node temp = head;
+while (temp.next != null) {
+    temp = temp.next;
+}
+```
+
+This loop moves `temp` to the last node of the list.
+
+```java
+temp.next = newNode;
+newNode.previous = temp;
+```
+
+These lines connect the new node at the end:
+- last node's `next` points to the new node
+- new node's `previous` points to the last node
+
+### deleteByValue method
+
+```java
+public void deleteByValue(int value)
+```
+
+This method deletes the first node whose value matches the given input.
+
+```java
+if (head == null) {
+    System.out.println("List is empty.");
+    return;
+}
+```
+
+If the list is empty, deletion is not possible.
+
+```java
+Node temp = head;
+while (temp != null && temp.data != value) {
+    temp = temp.next;
+}
+```
+
+This loop searches for the node containing the required value.
+
+```java
+if (temp == null) {
+    System.out.println("Element not found.");
+    return;
+}
+```
+
+If the value is not present in the list, the program prints a message and stops the deletion.
+
+### Updating links during deletion
+
+```java
+if (temp.previous != null) {
+    temp.previous.next = temp.next;
+} else {
+    head = temp.next;
+}
+```
+
+This part handles the left-side connection:
+- if the node is not the first node, previous node skips the current node
+- if the node is the first node, `head` moves to the next node
+
+```java
+if (temp.next != null) {
+    temp.next.previous = temp.previous;
+}
+```
+
+This part handles the right-side connection:
+- if there is a next node, its `previous` is updated
+
+This is what actually removes the node from the list.
+
+### displayForward method
+
+```java
+public void displayForward()
+```
+
+This method prints the list from left to right.
+
+```java
+if (head == null) {
+    System.out.println("List is empty.");
+    return;
+}
+```
+
+If the list has no nodes, it prints that the list is empty.
+
+```java
+Node temp = head;
+while (temp != null) {
+    System.out.print(temp.data + " ");
+    temp = temp.next;
+}
+```
+
+This loop starts from the head and moves through each node using `next`.
+
+### Main method
+
+In `main()`, the program creates:
+
+```java
+Scanner scanner = new Scanner(System.in);
+DoublyLinkedList list = new DoublyLinkedList();
+```
+
+Then it shows a menu inside an infinite loop.
+
+Options are:
+- `1. Insert`
+- `2. Delete`
+- `3. Display`
+- `4. Exit`
+
+### Switch statement
+
+The `switch` statement performs actions based on user choice:
+- insert a value at the end
+- delete a value from the list
+- display the list
+- exit the program
+
+### Program flow
+
+1. Create an empty doubly linked list.
+2. Show the menu repeatedly.
+3. If the user chooses insert, create a node and add it at the end.
+4. If the user chooses delete, search for the value and remove it.
+5. If the user chooses display, print all elements from the beginning.
+6. If the user chooses exit, stop the program.
+
+### Example
+
+If the user enters:
+- insert `10`
+- insert `20`
+- display
+
+Then output is:
+
+- `Doubly Linked List: 10 20`
+
+If the user then deletes `10`, the list becomes:
+
+- `Doubly Linked List: 20`
+
+## Practical 11: Traffic Light Simulation Using Java Swing
+
+This program simulates a traffic light using Java Swing.
+
+It shows three lights:
+- red
+- yellow
+- green
+
+When the user clicks the Start button, the lights change automatically after every 2 seconds.
+When the user clicks the Stop button, the simulation pauses.
+
+### Main concepts used
+
+This practical demonstrates:
+- Java Swing GUI
+- custom painting using `JPanel`
+- event handling
+- timer-based animation
+
+### Classes used in the program
+
+The program uses two classes:
+- `LightPanel`
+- `Practical11`
+
+### LightPanel class
+
+`LightPanel` extends `JPanel`.
+Its job is to draw the traffic lights.
+
+```java
+class LightPanel extends JPanel {
+    private Color activeColor = Color.RED;
+}
+```
+
+`activeColor` stores which light should currently glow.
+Initially it is set to `Color.RED`, so the red light is shown first.
+
+### setActiveColor method
+
+```java
+public void setActiveColor(Color activeColor) {
+    this.activeColor = activeColor;
+    repaint();
+}
+```
+
+This method updates the current active light and calls `repaint()`.
+
+`repaint()` tells Swing to draw the panel again with the new color.
+
+### paintComponent method
+
+```java
+protected void paintComponent(Graphics graphics) {
+    super.paintComponent(graphics);
+```
+
+This method is automatically called whenever the panel needs to be drawn.
+
+`super.paintComponent(graphics);` clears the old drawing before drawing again.
+
+The panel draws three circles using `fillOval()`:
+
+```java
+graphics.setColor(activeColor.equals(Color.RED) ? Color.RED : Color.LIGHT_GRAY);
+graphics.fillOval(50, 20, 80, 80);
+```
+
+This draws the top light.
+- if the active color is red, the circle becomes red
+- otherwise it becomes light gray
+
+The same logic is used for yellow and green lights.
+
+So at any time:
+- one light is active
+- the other two appear inactive in gray color
+
+### getPreferredSize method
+
+```java
+public Dimension getPreferredSize() {
+    return new Dimension(180, 330);
+}
+```
+
+This tells Swing the preferred size of the drawing panel.
+
+### Practical11 class
+
+```java
+public class Practical11 extends JFrame implements ActionListener
+```
+
+This means:
+- `extends JFrame` makes the class a window
+- `implements ActionListener` allows the class to respond to timer events
+
+### Instance variables
+
+```java
+private final LightPanel lightPanel;
+private final JLabel statusLabel;
+private final Timer timer;
+private int state = 0;
+```
+
+These variables are used as follows:
+- `lightPanel` displays the traffic lights
+- `statusLabel` displays text like `STOP`, `READY`, or `GO`
+- `timer` changes the light automatically after fixed time intervals
+- `state` stores the current light number
+
+### Constructor
+
+The constructor builds the GUI window.
+
+```java
+setTitle("Traffic Light Simulation");
+setSize(250, 430);
+setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+setLocationRelativeTo(null);
+```
+
+These lines:
+- set the window title
+- set the window size
+- close the program when the window is closed
+- place the window at the center of the screen
+
+### Creating components
+
+```java
+lightPanel = new LightPanel();
+statusLabel = new JLabel("STOP", SwingConstants.CENTER);
+timer = new Timer(2000, this);
+```
+
+- `lightPanel` creates the drawing area
+- `statusLabel` starts with the text `STOP`
+- `new Timer(2000, this)` creates a Swing timer that triggers every 2000 milliseconds, which is 2 seconds
+
+### Buttons
+
+```java
+JButton startButton = new JButton("Start Simulation");
+startButton.addActionListener(event -> timer.start());
+```
+
+When the Start button is clicked, the timer starts.
+
+```java
+JButton stopButton = new JButton("Stop Simulation");
+stopButton.addActionListener(event -> timer.stop());
+```
+
+When the Stop button is clicked, the timer stops.
+
+### Button panel
+
+```java
+JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+```
+
+This creates a panel with:
+- 1 row
+- 2 columns
+- 10 pixel horizontal gap
+- 10 pixel vertical gap
+
+The Start and Stop buttons are added to this panel.
+
+### Adding components to the frame
+
+```java
+add(lightPanel, BorderLayout.CENTER);
+add(statusLabel, BorderLayout.NORTH);
+add(buttonPanel, BorderLayout.SOUTH);
+```
+
+This places:
+- the traffic light panel in the center
+- the status label at the top
+- the buttons at the bottom
+
+### actionPerformed method
+
+```java
+public void actionPerformed(ActionEvent event) {
+    state = (state + 1) % 3;
+```
+
+This method runs every time the timer fires.
+
+`state = (state + 1) % 3` changes the state in a cycle:
+- `0`
+- `1`
+- `2`
+- back to `0`
+
+### Changing lights
+
+```java
+if (state == 0) {
+    lightPanel.setActiveColor(Color.RED);
+    statusLabel.setText("STOP");
+} else if (state == 1) {
+    lightPanel.setActiveColor(Color.YELLOW);
+    statusLabel.setText("READY");
+} else {
+    lightPanel.setActiveColor(Color.GREEN);
+    statusLabel.setText("GO");
+}
+```
+
+This controls the light sequence:
+- `0` means red light and `STOP`
+- `1` means yellow light and `READY`
+- `2` means green light and `GO`
+
+Every 2 seconds the next state is selected.
+
+### Main method
+
+```java
+SwingUtilities.invokeLater(() -> {
+    Practical11 frame = new Practical11();
+    frame.setVisible(true);
+});
+```
+
+This creates and shows the GUI on the Swing event-dispatch thread, which is the correct way to start a Swing application.
+
+### Program flow
+
+1. The window opens with the red light active and status `STOP`.
+2. The user clicks Start Simulation.
+3. The timer starts.
+4. Every 2 seconds, `actionPerformed()` runs.
+5. The light changes in the order red -> yellow -> green -> red.
+6. The label changes with the light as `STOP`, `READY`, and `GO`.
+7. If the user clicks Stop Simulation, the timer stops and the current light remains visible.
+
+### Important correction made
+
+The program originally had a constructor error because the button listeners used `timer` before it was initialized.
+
+It was fixed by creating the timer before attaching the Start and Stop button listeners:
+
+```java
+timer = new Timer(2000, this);
+```
+
+### Example behavior
+
+When the program starts:
+- red light is active
+- label shows `STOP`
+
+After clicking Start:
+- after 2 seconds, yellow light appears with `READY`
+- after the next 2 seconds, green light appears with `GO`
+- after the next 2 seconds, red light appears again with `STOP`
+
+## Practical 12: Quick Sort on an Array
+
+This program sorts an array using the Quick Sort algorithm.
+
+Quick Sort is a divide-and-conquer sorting technique.
+It selects one element as a pivot, places that pivot in its correct sorted position, and then sorts the left and right parts recursively.
+
+### Main concepts used
+
+This practical demonstrates:
+- arrays
+- recursion
+- partitioning
+- sorting algorithm
+
+### Methods used in the program
+
+The program mainly uses three methods:
+- `quickSort()`
+- `partition()`
+- `main()`
+
+### quickSort method
+
+```java
+public static void quickSort(int[] array, int low, int high) {
+    if (low < high) {
+        int partitionIndex = partition(array, low, high);
+        quickSort(array, low, partitionIndex - 1);
+        quickSort(array, partitionIndex + 1, high);
+    }
+}
+```
+
+This is the main recursive sorting method.
+
+It works like this:
+- check whether the current part of the array has more than one element
+- find the correct position of the pivot using `partition()`
+- sort the left side of the pivot
+- sort the right side of the pivot
+
+### Meaning of `low` and `high`
+
+- `low` is the starting index of the current part of the array
+- `high` is the ending index of the current part of the array
+
+If `low < high` is false, it means the part has zero or one element, so it is already sorted.
+
+### partition method
+
+```java
+public static int partition(int[] array, int low, int high) {
+    int pivot = array[high];
+    int i = low - 1;
+```
+
+This method selects the last element as the pivot.
+
+`pivot = array[high]` means:
+- the element at index `high` is used as the pivot
+
+`i = low - 1` keeps track of the position where the next smaller element should go.
+
+### Loop inside partition
+
+```java
+for (int j = low; j < high; j++) {
+    if (array[j] <= pivot) {
+        i++;
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+```
+
+This loop checks each element from `low` to `high - 1`.
+
+If `array[j] <= pivot`:
+- increase `i`
+- swap `array[i]` and `array[j]`
+
+This ensures that:
+- all elements less than or equal to pivot move to the left side
+- larger elements stay on the right side
+
+### Final pivot swap
+
+```java
+int temp = array[i + 1];
+array[i + 1] = array[high];
+array[high] = temp;
+```
+
+After the loop ends, the pivot is swapped into its correct position.
+
+So:
+- all smaller elements are on the left
+- pivot is in the middle
+- all larger elements are on the right
+
+```java
+return i + 1;
+```
+
+This returns the final index of the pivot.
+
+### main method
+
+The `main()` method handles input, sorting, and output.
+
+```java
+try (Scanner scanner = new Scanner(System.in)) {
+```
+
+This creates a `Scanner` object using try-with-resources, so it is automatically closed after use.
+
+### Reading array size
+
+```java
+System.out.print("Enter the number of elements: ");
+int n = scanner.nextInt();
+```
+
+This reads the number of elements.
+
+```java
+if (n <= 0) {
+    System.out.println("Array size must be positive.");
+    return;
+}
+```
+
+This checks whether the array size is valid.
+If the size is zero or negative, the program prints an error and stops.
+
+### Reading array elements
+
+```java
+int[] array = new int[n];
+System.out.println("Enter the elements:");
+for (int i = 0; i < n; i++) {
+    array[i] = scanner.nextInt();
+}
+```
+
+This creates the array and reads each element from the user.
+
+### Calling Quick Sort
+
+```java
+quickSort(array, 0, n - 1);
+```
+
+This sorts the full array.
+
+Why `0` and `n - 1`:
+- `0` is the first index
+- `n - 1` is the last index
+
+### Printing the sorted array
+
+```java
+for (int value : array) {
+    System.out.print(value + " ");
+}
+```
+
+This loop prints the sorted values one by one.
+
+### How Quick Sort works on an example
+
+Suppose the input array is:
+
+`34 12 5 66 1`
+
+First partition:
+- pivot = `1`
+- after partition, `1` moves to the beginning
+
+Then the remaining right part is sorted again using the same logic.
+
+Finally the array becomes:
+
+`1 5 12 34 66`
+
+### Program flow
+
+1. Read the number of elements.
+2. Check whether the size is valid.
+3. Read all array elements.
+4. Call `quickSort()` on the entire array.
+5. `quickSort()` calls `partition()` to place the pivot correctly.
+6. The left and right parts are sorted recursively.
+7. Print the final sorted array.
+
+### Important idea of recursion
+
+Quick Sort uses recursion because the same sorting logic is applied repeatedly on smaller parts of the array.
+
+For example:
+- first sort the whole array
+- then sort the left half
+- then sort the right half
+- then continue dividing until only single elements remain
+
+### Example
+
+If the input is:
+- `5`
+- `34 12 5 66 1`
+
+Then the output is:
+- `1 5 12 34 66`

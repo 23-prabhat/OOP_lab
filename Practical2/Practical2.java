@@ -8,42 +8,43 @@ import java.util.Scanner;
 
 public class Practical2 {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        try (Scanner scanner = new Scanner(System.in)) {
 
-        System.out.print("Enter the number of elements: ");
-        int n = scanner.nextInt();
+            System.out.print("Enter the number of elements: ");
+            int n = scanner.nextInt();
 
-        if (n <= 0) {
-            System.out.println("Array size must be positive.");
-            return;
-        }
-
-        int[] array = new int[n];
-        int[] result = new int[n];
-        int index = 0;
-
-        System.out.println("Enter the array elements:");
-        for (int i = 0; i < n; i++) {
-            array[i] = scanner.nextInt();
-        }
-
-        for (int value : array) {
-            if (value % 2 == 0) {
-                result[index++] = value;
+            if (n <= 0) {
+                System.out.println("Array size must be positive.");
+                return;
             }
-        }
 
-        for (int value : array) {
-            if (value % 2 != 0) {
-                result[index++] = value;
+            int[] array = new int[n];
+            int[] result = new int[n];
+            int index = 0;
+
+            System.out.println("Enter the array elements:");
+            for (int i = 0; i < n; i++) {
+                array[i] = scanner.nextInt();
             }
-        }
 
-        System.out.println("Rearranged array:");
-        for (int value : result) {
-            System.out.print(value + " ");
+            for (int value : array) {
+                if (value % 2 == 0) {
+                    result[index++] = value;
+                }
+            }
+
+            for (int value : array) {
+                if (value % 2 != 0) {
+                    result[index++] = value;
+                }
+            }
+
+            System.out.println("Rearranged array:");
+            for (int value : result) {
+                System.out.print(value + " ");
+            }
+            System.out.println();
         }
-        System.out.println();
     }
 }
 

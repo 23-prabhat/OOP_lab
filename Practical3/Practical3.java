@@ -8,26 +8,27 @@ import java.util.Scanner;
 
 public class Practical3 {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        try (Scanner scanner = new Scanner(System.in)) {
 
-        System.out.print("Enter three non-negative integers: ");
-        int a = scanner.nextInt();
-        int b = scanner.nextInt();
-        int c = scanner.nextInt();
+            System.out.print("Enter three non-negative integers: ");
+            int a = scanner.nextInt();
+            int b = scanner.nextInt();
+            int c = scanner.nextInt();
 
-        if (a < 0 || b < 0 || c < 0) {
-            System.out.println("Please enter only non-negative integers.");
-            return;
-        }
+            if (a < 0 || b < 0 || c < 0) {
+                System.out.println("Please enter only non-negative integers.");
+                return;
+            }
 
-        int lastDigitA = a % 10;
-        int lastDigitB = b % 10;
-        int lastDigitC = c % 10;
+            int lastDigitA = a % 10;
+            int lastDigitB = b % 10;
+            int lastDigitC = c % 10;
 
-        if (lastDigitA == lastDigitB && lastDigitB == lastDigitC) {
-            System.out.println("All three numbers have the same rightmost digit.");
-        } else {
-            System.out.println("The numbers do not have the same rightmost digit.");
+            if (lastDigitA == lastDigitB && lastDigitB == lastDigitC) {
+                System.out.println("All three numbers have the same rightmost digit.");
+            } else {
+                System.out.println("The numbers do not have the same rightmost digit.");
+            }
         }
     }
 }

@@ -16,36 +16,37 @@ public class Practical9 {
     private static final String FILE_NAME = "students.txt";
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        File file = new File(FILE_NAME);
+        try (Scanner scanner = new Scanner(System.in)) {
+            File file = new File(FILE_NAME);
 
-        try {
-            if (file.createNewFile()) {
-                System.out.println("Student record file created: " + file.getAbsolutePath());
-            }
-        } catch (IOException exception) {
-            System.out.println("Unable to create file: " + exception.getMessage());
-            return;
-        }
-
-        while (true) {
-            System.out.println("\nStudent Record Management");
-            System.out.println("1. Add Student Record");
-            System.out.println("2. View Student Records");
-            System.out.println("3. Exit");
-            System.out.print("Enter your choice: ");
-
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (choice) {
-                case 1 -> addStudentRecord(scanner, file);
-                case 2 -> viewStudentRecords(file);
-                case 3 -> {
-                    System.out.println("Program exited.");
-                    return;
+            try {
+                if (file.createNewFile()) {
+                    System.out.println("Student record file created: " + file.getAbsolutePath());
                 }
-                default -> System.out.println("Invalid choice. Try again.");
+            } catch (IOException exception) {
+                System.out.println("Unable to create file: " + exception.getMessage());
+                return;
+            }
+
+            while (true) {
+                System.out.println("\nStudent Record Management");
+                System.out.println("1. Add Student Record");
+                System.out.println("2. View Student Records");
+                System.out.println("3. Exit");
+                System.out.print("Enter your choice: ");
+
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (choice) {
+                    case 1 -> addStudentRecord(scanner, file);
+                    case 2 -> viewStudentRecords(file);
+                    case 3 -> {
+                        System.out.println("Program exited.");
+                        return;
+                    }
+                    default -> System.out.println("Invalid choice. Try again.");
+                }
             }
         }
     }

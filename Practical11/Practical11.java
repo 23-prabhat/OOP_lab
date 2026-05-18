@@ -60,6 +60,7 @@ public class Practical11 extends JFrame implements ActionListener {
 
         lightPanel = new LightPanel();
         statusLabel = new JLabel("STOP", SwingConstants.CENTER);
+        timer = new Timer(2000, this);
 
         JButton startButton = new JButton("Start Simulation");
         startButton.addActionListener(event -> timer.start());
@@ -74,8 +75,6 @@ public class Practical11 extends JFrame implements ActionListener {
         add(lightPanel, BorderLayout.CENTER);
         add(statusLabel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.SOUTH);
-
-        timer = new Timer(2000, this);
     }
 
     @Override
